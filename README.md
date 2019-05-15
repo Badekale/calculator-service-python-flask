@@ -22,7 +22,7 @@ The Backend Project Layout will look like this:
 └── .gitignore
 ```
 
-## Module 1: Create Backend using Python Flask REST API
+## Step 1: Create Backend using Python Flask REST API
 - Basic calculations (add, subtract, multiply, divide)
 - Advanced calculations (square root, cube root, power, factorial)
 - Calculator triggered by developers via a web api
