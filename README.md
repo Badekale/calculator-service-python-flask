@@ -39,18 +39,19 @@ $ cd ~/environment/myproject-calculator-service
 - Follow folder structure
 ```
 ~/environment/myproject-calculator-service
-├── app.py
-├── buildspec.yml
-├── calculator.py
 ├── kubernetes/
 │   ├── deployment.yml
 │   └── service.yml
+├── venv/
+├── .gitignore
+├── app.py
+├── buildspec.yml
+├── calculator.py
+├── curl_scripts.md
 ├── requirements.txt
 ├── test_calculator.py
-├── venv/
 ├── Dockerfile
-├── README.md
-└── .gitignore
+└── README.md
 ```
 
 - Activate virtual environment, install flask and flask-cors
