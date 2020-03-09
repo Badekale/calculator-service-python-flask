@@ -63,207 +63,18 @@ $ venv/bin/pip install flask-cors
 ```
 
 - Add .gitignore file ~/environment/myproject-customer-service-python/.gitignore
-
-
 ```
 venv
 *.pyc
 ```
 
+- Create calculator class ~/environment/myproject-customer-service-python/calculator.py
+- Add ~/environment/myproject-customer-service-python/app.py
 
 
-
-### Step 1.6 Create Calculator Class Calculator.py
+- Generate requirements.txt
 ```
-$ cd ~/environment/calculator-backend
-$ vi calculator.py
-```
-```
-#!/usr/bin/env python
-import math
-
-class Calculator:
-    def __init__(self):
-        pass
-
-    def add(self, arg1, arg2):
-        return float(arg1) + float(arg2)
-
-    def subtract(self, arg1, arg2):
-        return float(arg1) - float(arg2)
-
-    def multiply(self, arg1, arg2):
-        return float(arg1) * float(arg2)
-
-    def divide(self, arg1, arg2):
-        return float(arg1) / (arg2)
-
-    def sqrt(self, arg1):
-        return math.sqrt(float(arg1))
-
-    def cbrt(self, arg1):
-        return round(float(arg1)**(1.0/3))
-
-    def exp(self, arg1, arg2):
-        return float(arg1) ** float(arg2)
-
-    def factorial(self, arg1):
-       if arg1 == 1:
-          return arg1
-       else:
-          return float(arg1)*self.factorial(float(arg1)-1)
-```
-
-### Step 1.7: Add app.py
-```
-$ cd ~/environment/calculator-backend
-$ vi app.py
-```
-```
-#!/usr/bin/env python
-from flask import (Flask, jsonify, request, abort, render_template, logging)
-from flask_cors import CORS
-from calculator import Calculator
-
-app = Flask(__name__)
-CORS(app)
-
-@app.route('/')
-def index_page():
-    return "This is a RESTful Calculator App built with Python Flask! - testing my CI/CD Pipeline"
-
-@app.route('/add', methods=['POST'])
-def add_args():
-    if not request.json:
-        abort(400)
-    try:
-        arg1 = request.json['argument1']
-        arg2 = request.json['argument2']
-        calculator = Calculator()
-        answer = calculator.add(arg1, arg2)
-        app.logger.info('{ "operation": "add", "arg1": "%s", "arg2": "%s", "answer": "%s" }', arg1, arg2, answer)
-        return (jsonify({'answer':answer}), 200)
-    except KeyError:
-        abort(400)
-
-@app.route('/subtract', methods=['POST'])
-def subtract_args():
-    if not request.json:
-        abort(400)
-    try:
-        arg1 = request.json['argument1']
-        arg2 = request.json['argument2']
-        calculator = Calculator()
-        answer = calculator.subtract(arg1, arg2)
-        app.logger.info('{ "operation": "subtract", "arg1": "%s", "arg2": "%s", "answer": "%s" }', arg1, arg2, answer)
-        return (jsonify({'answer':answer}), 200)
-    except KeyError:
-        abort(400)
-
-@app.route('/multiply', methods=['POST'])
-def multiply_args():
-    if not request.json:
-        abort(400)
-    try:
-        arg1 = request.json['argument1']
-        arg2 = request.json['argument2']
-        calculator = Calculator()
-        answer = calculator.multiply(arg1, arg2)
-        app.logger.info('{ "operation": "multiply", "arg1": "%s", "arg2": "%s", "answer": "%s" }', arg1, arg2, answer)
-        return (jsonify({'answer':answer}), 200)
-    except KeyError:
-        abort(400)
-
-@app.route('/divide', methods=['POST'])
-def divide_args():
-    if not request.json:
-        abort(400)
-    try:
-        arg1 = request.json['argument1']
-        arg2 = request.json['argument2']
-        calculator = Calculator()
-        answer = calculator.divide(arg1, arg2)
-        app.logger.info('{ "operation": "divide", "arg1": "%s", "arg2": "%s", "answer": "%s" }', arg1, arg2, answer)
-        return (jsonify({'answer':answer}), 200)
-    except KeyError:
-        abort(400)
-    except ZeroDivisionError:
-        abort(400)
-
-@app.route('/sqrt', methods=['POST'])
-def sqrt_args():
-    if not request.json:
-        abort(400)
-    try:
-        arg1 = request.json['argument1']
-        calculator = Calculator()
-        answer = calculator.sqrt(arg1)
-        app.logger.info('{ "operation": "sqrt", "arg1": "%s", "arg2": "none", "answer": "%s" }', arg1, answer)
-        return (jsonify({'answer':answer}), 200)
-    except KeyError:
-        abort(400)
-
-@app.route('/cbrt', methods=['POST'])
-def cbrt_args():
-    if not request.json:
-        abort(400)
-    try:
-        arg1 = request.json['argument1']
-        calculator = Calculator()        
-        answer = calculator.cbrt(arg1)
-        app.logger.info('{ "operation": "cbrt", "arg1": "%s", "arg2": "none", "answer": "%s" }', arg1, answer)
-        return (jsonify({'answer':answer}), 200)
-    except KeyError:
-        abort(400)
-
-@app.route('/exp', methods=['POST'])
-def exponent_args():
-    if not request.json:
-        abort(400)
-    try:
-        arg1 = request.json['argument1']
-        arg2 = request.json['argument2']
-        calculator = Calculator()        
-        answer = calculator.exp(arg1, arg2)
-        app.logger.info('{ "operation": "exp", "arg1": "%s", "arg2": "%s", "answer": "%s" }', arg1, arg2, answer)
-        return (jsonify({'answer':answer}), 200)
-    except KeyError:
-        abort(400)
-
-@app.route('/factorial', methods=['POST'])
-def factorial_args():
-    if not request.json:
-        abort(400)
-    try:
-        arg1 = request.json['argument1']
-        calculator = Calculator()          
-        answer = calculator.factorial(arg1)
-        app.logger.info('{ "operation": "factorial", "arg1": "%s", "arg2": "none", "answer": "%s" }', arg1, answer)
-        return (jsonify({'answer':answer}), 200)
-    except KeyError:
-        abort(400)
-
-if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0')
-```
-
-### Step 1.8: Create the requirements.txt file
-```
-$ cd ~/environment/calculator-backend
-$ vi requirements.txt
-```
-```
-flask
-flask_restful
-flask_cors
-```
-
-### Step 1.9: Run Locally and Test
-```
-$ cd ~/environment/calculator-backend
-$ chmod a+x app.py
-$ ./app.py
-$ curl http://localhost:5000
+pip freeze > requirements.txt
 ```
 
 ### Step 1.10: Backend Unit Tests
@@ -319,28 +130,14 @@ $ ./test_calculator.py -v
 
 - Run locally before dockerizing
 ```bash
-$ python app.py
+$ chmod a+x app.py
+$ ./app.py
 $ curl http://localhost:5000
 ```
 
 - Test using curl scripts ~/environment/myproject-customer-service-python/curl_scripts.md
 
 - Add Docker File ~/environment/myproject-calculator-service-python/Dockerfile
-```
-# Set base image to python
-FROM python:3.7
-
-# Copy source file and python req's
-COPY . /app
-WORKDIR /app
-
-# Install requirements
-RUN pip install -r requirements.txt
-
-# Set image's main command and run the command within the container
-ENTRYPOINT ["python"]
-CMD ["app.py"]
-```
 
 - Build, Tag and Run the Docker Image locally. (Replace AccountId and Region)
 ```
