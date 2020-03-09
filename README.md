@@ -23,14 +23,14 @@ POST        | http://[hostname]/factorial {"argument1":a }                | Get 
 - Docker, Python, Flask, Git, Virtualenv https://github.com/jrdalino/development-environment-setup
 - Setup CI/CD using https://github.com/jrdalino/myproject-aws-codepipeline-calculator-service-terraform. This will create CodeCommit Repo, ECR Repo, CodeBuild Project, Lambda Function and CodePipeline Pipeline 
 - You may also create the repositories individually
-```
+```bash
 $ aws codecommit create-repository --repository-name myproject-calculator-service
 $ aws ecr create-repository --repository-name myproject-calculator-service
 ```
 
 ## Usage
 - Clone CodeCommit Repository and navigate to working directory
-```
+```bash
 $ cd ~/environment
 $ git clone https://git-codecommit.ap-southeast-2.amazonaws.com/v1/repos/myproject-calculator-service
 $ cd ~/environment/myproject-calculator-service-python
@@ -54,75 +54,32 @@ $ cd ~/environment/myproject-calculator-service-python
 ```
 
 - Activate virtual environment, install flask and flask-cors
-```
-$ cd ~/environment/calculator-backend
+```bash
 $ python3 -m venv venv
 $ source venv/bin/activate
-$ venv/bin/pip install flask
-$ venv/bin/pip install flask-cors
+(venv) $
+(venv) $ venv/bin/pip install flask
+(venv) $ venv/bin/pip install flask-cors
+```
+
+- To deactivate
+```bash
+(venv) $ deactivate
 ```
 
 - Add .gitignore file ~/environment/myproject-customer-service-python/.gitignore
-```
-venv
-*.pyc
-```
-
 - Create calculator class ~/environment/myproject-customer-service-python/calculator.py
-- Add ~/environment/myproject-customer-service-python/app.py
-
+- Add app ~/environment/myproject-customer-service-python/app.py
+- Add README.md file ~/environment/myproject-calculator-service-python/README.md
 
 - Generate requirements.txt
-```
+```bash
 pip freeze > requirements.txt
 ```
 
-### Step 1.10: Backend Unit Tests
-```
-$ cd ~/environment/calculator-backend
-$ vi test_calculator.py
-```
-```
-#!/usr/bin/env python
-import unittest
-from calculator import Calculator
+- Add Unit Testing ~/environment/myproject-calculator-service-python/test_calculator.py
 
-class CalculatorTest(unittest.TestCase):
-    calculator = Calculator()
-    
-    def test_add(self):
-        self.assertEqual(4, self.calculator.add(2,2))
-
-    def test_subtract(self):
-        self.assertEqual(2, self.calculator.subtract(3,1))
-        self.assertEqual(-2, self.calculator.subtract(1,3))
-
-    def test_multiply(self):
-        self.assertEqual(12, self.calculator.multiply(3,4))
-        self.assertEqual(13.5, self.calculator.multiply(3,4.5))
-
-    def test_divide(self):
-        self.assertEqual(3, self.calculator.divide(9,3))
-        with self.assertRaises(ZeroDivisionError):
-            self.calculator.divide(3,0) 
-    
-    def test_sqrt(self):
-        self.assertEqual(4, self.calculator.sqrt(16))
-
-    def test_cbrt(self):
-        self.assertEqual(4, self.calculator.cbrt(64))
-
-    def test_exp(self):
-        self.assertEqual(32, self.calculator.exp(2,5))
-
-    def test_factorial(self):
-        self.assertEqual(120, self.calculator.factorial(5))
-
-if __name__ == "__main__":
-    unittest.main()
-```
-
-- Add Unit Tests and Run Tests
+- Run Tests
 ```bash
 $ chmod a+x test_calculator.py
 $ ./test_calculator.py -v
@@ -140,7 +97,7 @@ $ curl http://localhost:5000
 - Add Docker File ~/environment/myproject-calculator-service-python/Dockerfile
 
 - Build, Tag and Run the Docker Image locally. (Replace AccountId and Region)
-```
+```bash
 $ docker build -t myproject-calculator-service .
 $ docker tag myproject-calculator-service:latest 222337787619.dkr.ecr.ap-southeast-2.amazonaws.com/myproject-calculator-service:latest
 $ docker run -d -p 5000:5000 myproject-calculator-service:latest
@@ -169,7 +126,7 @@ $ git push origin master
 - Test using curl scripts ~/environment/myproject-calculator-service-python/curl_scripts.md
 
 ## (Optional) Clean up
-```
+```bash
 $ aws ecr delete-repository --repository-name myproject-calculator-service --force
 $ aws codecommit delete-repository --repository-name myproject-calculator-service
 $ rm -rf ~/environment/myproject-calculator-service
