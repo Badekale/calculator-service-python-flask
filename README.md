@@ -74,7 +74,7 @@ $ source venv/bin/activate
 
 - Generate requirements.txt
 ```bash
-pip freeze > requirements.txt
+$ pip freeze > requirements.txt
 ```
 
 - Add Unit Testing ~/environment/myproject-calculator-service-python/test_calculator.py
