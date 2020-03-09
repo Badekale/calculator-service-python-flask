@@ -9,7 +9,7 @@ CORS(app)
 
 @app.route('/')
 def index_page():
-    return "This is a RESTful Calculator App built with Python Flask! - testing my CI/CD Pipeline"
+    return "This is a RESTful Calculator App built with Python Flask!"
 
 @app.route('/add', methods=['POST'])
 def add_args():
