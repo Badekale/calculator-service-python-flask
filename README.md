@@ -67,9 +67,9 @@ $ source venv/bin/activate
 (venv) $ deactivate
 ```
 
-- Add .gitignore file ~/environment/myproject-customer-service-python/.gitignore
-- Create calculator class ~/environment/myproject-customer-service-python/calculator.py
-- Add app ~/environment/myproject-customer-service-python/app.py
+- Add .gitignore file ~/environment/myproject-calculator-service-python/.gitignore
+- Create calculator class ~/environment/myproject-calculator-service-python/calculator.py
+- Add app ~/environment/myproject-calculator-service-python/app.py
 - Add README.md file ~/environment/myproject-calculator-service-python/README.md
 
 - Generate requirements.txt
@@ -92,7 +92,7 @@ $ ./app.py
 $ curl http://localhost:5000
 ```
 
-- Test using curl scripts ~/environment/myproject-customer-service-python/curl_scripts.md
+- Test using curl scripts ~/environment/myproject-calculator-service-python/curl_scripts.md
 
 - Add Docker File ~/environment/myproject-calculator-service-python/Dockerfile
 
