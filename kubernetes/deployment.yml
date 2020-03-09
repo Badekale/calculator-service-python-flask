@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myproject-calculator-service
+  labels:
+    app: myproject-calculator-service
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: myproject-calculator-service
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: myproject-calculator-service
+    spec:
+      containers:
+      - image: 222337787619.dkr.ecr.ap-southeast-2.amazonaws.com/myproject-calculator-service:latest
+        imagePullPolicy: Always
+        name: myproject-calculator-service
+        ports:
+        - containerPort: 5000
+          protocol: TCP

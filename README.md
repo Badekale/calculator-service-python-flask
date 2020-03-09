@@ -113,8 +113,24 @@ $ aws ecr describe-images --repository-name myproject-calculator-service
 
 - Add Buildspec Yaml file ~/environment/myproject-calculator-service-python/buildspec.yml
 
+## Manual Deployment
+- Create ELB Service Role if it doesnt exist yet
+```
+$ aws iam get-role --role-name "AWSServiceRoleForElasticLoadBalancing" || aws iam create-service-linked-role --aws-service-name "elasticloadbalancing.amazonaws.com"
+```
+
 - Add Kubernetes Deployment and Service Yaml files ~/environment/myproject-calculator-service-python/kubernetes/deployment.yml and ~/environment/myproject-calculator-service-python/kubernetes/service.yml
 
+- Create k8s Deployment and Service
+```
+$ cd ~/environment/calculator-backend/kubernetes
+$ kubectl apply -f deployment.yaml
+$ kubectl apply -f service.yaml
+$ kubectl get deployment calculator-backend
+```
+
+
+## Automatic Deployment
 - Make changes, commit and push changes to CodeCommit repository to trigger codepipeline deployment to EKS
 ```bash
 $ git add .
@@ -122,10 +138,24 @@ $ git commit -m "Initial Commit"
 $ git push origin master
 ```
 
+- Scale the service
+```
+$ kubectl get deployments
+$ kubectl scale deployment calculator-backend --replicas=1
+$ kubectl get deployments
+```
+
+- Find the Service Address
+```
+$ kubectl get service calculator-backend -o wide
+```
+
 - Test using curl scripts ~/environment/myproject-calculator-service-python/curl_scripts.md
 
 ## (Optional) Clean up
 ```bash
+$ kubectl delete -f service.yaml
+$ kubectl delete -f deployment.yaml
 $ aws ecr delete-repository --repository-name myproject-calculator-service --force
 $ aws codecommit delete-repository --repository-name myproject-calculator-service
 $ rm -rf ~/environment/myproject-calculator-service

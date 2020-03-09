@@ -3,6 +3,7 @@ from flask import (Flask, jsonify, request, abort, render_template, logging)
 from flask_cors import CORS
 from calculator import Calculator
 
+# Initialize the flask application
 app = Flask(__name__)
 CORS(app)
 
