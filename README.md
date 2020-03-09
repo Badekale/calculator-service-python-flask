@@ -33,12 +33,12 @@ $ aws ecr create-repository --repository-name myproject-calculator-service
 ```bash
 $ cd ~/environment
 $ git clone https://git-codecommit.ap-southeast-2.amazonaws.com/v1/repos/myproject-calculator-service
-$ cd ~/environment/myproject-calculator-service-python
+$ cd ~/environment/myproject-calculator-service
 ```
 
 - Follow folder structure
 ```
-~/environment/myproject-calculator-service-python
+~/environment/myproject-calculator-service
 ├── app.py
 ├── buildspec.yml
 ├── calculator.py
@@ -67,16 +67,16 @@ $ source venv/bin/activate
 (venv) $ deactivate
 ```
 
-- Add .gitignore file     ~/environment/myproject-calculator-service-python/.gitignore
-- Create calculator class ~/environment/myproject-calculator-service-python/calculator.py
-- Add app                 ~/environment/myproject-calculator-service-python/app.py
-- Add README.md file      ~/environment/myproject-calculator-service-python/README.md
-- Generate                ~/environment/myproject-calculator-service-python/requirements.txt
+- Add .gitignore file     ~/environment/myproject-calculator-service/.gitignore
+- Create calculator class ~/environment/myproject-calculator-service/calculator.py
+- Add app                 ~/environment/myproject-calculator-service/app.py
+- Add README.md file      ~/environment/myproject-calculator-service/README.md
+- Generate                ~/environment/myproject-calculator-service/requirements.txt
 ```bash
 $ pip freeze > requirements.txt
 ```
 
-- Add Unit Testing ~/environment/myproject-calculator-service-python/test_calculator.py
+- Add Unit Testing ~/environment/myproject-calculator-service/test_calculator.py
 
 - Run Tests
 ```bash
@@ -91,9 +91,9 @@ $ ./app.py
 $ curl http://localhost:5000
 ```
 
-- Test using curl scripts ~/environment/myproject-calculator-service-python/curl_scripts.md
+- Test using curl scripts ~/environment/myproject-calculator-service/curl_scripts.md
 
-- Add Docker File ~/environment/myproject-calculator-service-python/Dockerfile
+- Add Docker File ~/environment/myproject-calculator-service/Dockerfile
 
 - Build, Tag and Run the Docker Image locally. (Replace AccountId and Region)
 ```bash
@@ -102,7 +102,7 @@ $ docker tag myproject-calculator-service:latest 222337787619.dkr.ecr.ap-southea
 $ docker run -d -p 5000:5000 myproject-calculator-service:latest
 ```
 
-- Test using curl scripts ~/environment/myproject-calculator-service-python/curl_scripts.md
+- Test using curl scripts ~/environment/myproject-calculator-service/curl_scripts.md
 
 - Push our Docker Image to ECR and validate
 ```bash
@@ -111,7 +111,7 @@ $ docker push 222337787619.dkr.ecr.ap-southeast-2.amazonaws.com/myproject-calcul
 $ aws ecr describe-images --repository-name myproject-calculator-service
 ```
 
-- Add Buildspec Yaml file ~/environment/myproject-calculator-service-python/buildspec.yml
+- Add Buildspec Yaml file ~/environment/myproject-calculator-service/buildspec.yml
 
 ## Manual Deployment
 - Create ELB Service Role if it doesnt exist yet
@@ -119,16 +119,15 @@ $ aws ecr describe-images --repository-name myproject-calculator-service
 $ aws iam get-role --role-name "AWSServiceRoleForElasticLoadBalancing" || aws iam create-service-linked-role --aws-service-name "elasticloadbalancing.amazonaws.com"
 ```
 
-- Add Kubernetes Deployment and Service Yaml files ~/environment/myproject-calculator-service-python/kubernetes/deployment.yml and ~/environment/myproject-calculator-service-python/kubernetes/service.yml
+- Add Kubernetes Deployment and Service Yaml files ~/environment/myproject-calculator-service/kubernetes/deployment.yml and ~/environment/myproject-calculator-service/kubernetes/service.yml
 
 - Create k8s Deployment and Service
 ```
-$ cd ~/environment/calculator-backend/kubernetes
+$ cd ~/environment/myproject-calculator-service/kubernetes
 $ kubectl apply -f deployment.yaml
 $ kubectl apply -f service.yaml
-$ kubectl get deployment calculator-backend
+$ kubectl get deployment myproject-calculator-service
 ```
-
 
 ## Automatic Deployment
 - Make changes, commit and push changes to CodeCommit repository to trigger codepipeline deployment to EKS
@@ -141,16 +140,16 @@ $ git push origin master
 - Scale the service
 ```
 $ kubectl get deployments
-$ kubectl scale deployment calculator-backend --replicas=1
+$ kubectl scale deployment myproject-calculator-service --replicas=1
 $ kubectl get deployments
 ```
 
 - Find the Service Address
 ```
-$ kubectl get service calculator-backend -o wide
+$ kubectl get service myproject-calculator-service -o wide
 ```
 
-- Test using curl scripts ~/environment/myproject-calculator-service-python/curl_scripts.md
+- Test using curl scripts ~/environment/myproject-calculator-service/curl_scripts.md
 
 ## (Optional) Clean up
 ```bash
