@@ -161,4 +161,7 @@ $ kubectl delete -f deployment.yml
 $ aws ecr delete-repository --repository-name myproject-calculator-service --force
 $ aws codecommit delete-repository --repository-name myproject-calculator-service
 $ rm -rf ~/environment/myproject-calculator-service
+$ docker ps
+$ docker kill < ad04385ef6dc >
+$ docker system prune -a
 ```
