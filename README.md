@@ -1,13 +1,44 @@
-# Backend Python Flask RestAPI  Calculator
+# myproject-calculator-service-python
 
-The Backend Project Layout will look like this:
+## Functional Requirements
+- Basic calculations (add, subtract, multiply, divide)
+- Advanced calculations (square root, cube root, power, factorial)
+- Calculator triggered by developers via a web api
 
+## API Endpoints
 ```
-~/environment/calculator-backend
-├── aws-cli/
-│   ├── artifacts-bucket-policy.json
-│   ├── code-build-project.json
-│   └── eks-calculator-codebuild-codepipeline-iam-role.yml
+HTTP METHOD | URI                                                         | Action
+-----------   -----------------------------------------------------------   --------------------------------------------------
+POST        | http://[hostname]/add {"argument1":a, "argument2":b }       | Adds two numbers (a + b)
+POST        | http://[hostname]/subtract {"argument1":a, "argument2":b }  | Subracts two numbers (a - b)
+POST        | http://[hostname]/multiply {"argument1":a, "argument2":b }  | Multiplies two numbers (a * b)
+POST        | http://[hostname]/divide {"argument1":a, "argument2":b }    | Divides two numbers (a / b)
+POST        | http://[hostname]/sqrt {"argument1":a }                     | Gets the square root of a number (a)
+POST        | http://[hostname]/cbrt {"argument1":a }                     | Gets the cube root of a number (a)
+POST        | http://[hostname]/exp {"argument1":a, "argument2":b }       | Gets the the exponent of a raised to b
+POST        | http://[hostname]/factorial {"argument1":a }                | Get the factorial of number 5! = 5 * 4 * 3 * 2 * 1 
+```
+
+## Prerequisites
+- Docker, Python, Flask, Git, Virtualenv https://github.com/jrdalino/development-environment-setup
+- Setup CI/CD using https://github.com/jrdalino/myproject-aws-codepipeline-calculator-service-terraform. This will create CodeCommit Repo, ECR Repo, CodeBuild Project, Lambda Function and CodePipeline Pipeline 
+- You may also create the repositories individually
+```
+$ aws codecommit create-repository --repository-name myproject-calculator-service
+$ aws ecr create-repository --repository-name myproject-calculator-service
+```
+
+## Usage
+- Clone CodeCommit Repository and navigate to working directory
+```
+$ cd ~/environment
+$ git clone https://git-codecommit.ap-southeast-2.amazonaws.com/v1/repos/myproject-calculator-service
+$ cd ~/environment/myproject-calculator-service-python
+```
+
+- Follow folder structure
+```
+~/environment/myproject-calculator-service-python
 ├── app.py
 ├── buildspec.yml
 ├── calculator.py
@@ -22,55 +53,7 @@ The Backend Project Layout will look like this:
 └── .gitignore
 ```
 
-## Step 1: Create Backend using Python Flask REST API
-- Basic calculations (add, subtract, multiply, divide)
-- Advanced calculations (square root, cube root, power, factorial)
-- Calculator triggered by developers via a web api
-
-```
-HTTP METHOD | URI                                                         | Action
------------   -----------------------------------------------------------   --------------------------------------------------
-POST        | http://[hostname]/add {"argument1":a, "argument2":b }       | Adds two numbers (a + b)
-POST        | http://[hostname]/subtract {"argument1":a, "argument2":b }  | Subracts two numbers (a - b)
-POST        | http://[hostname]/multiply {"argument1":a, "argument2":b }  | Multiplies two numbers (a * b)
-POST        | http://[hostname]/divide {"argument1":a, "argument2":b }    | Divides two numbers (a / b)
-POST        | http://[hostname]/sqrt {"argument1":a }                     | Gets the square root of a number (a)
-POST        | http://[hostname]/cbrt {"argument1":a }                     | Gets the cube root of a number (a)
-POST        | http://[hostname]/exp {"argument1":a, "argument2":b }       | Gets the the exponent of a raised to b
-POST        | http://[hostname]/factorial {"argument1":a }                | Get the factorial of number 5! = 5 * 4 * 3 * 2 * 1 
-```
-
-### Step 1.1: Create a CodeCommit Repository
-```
-$ aws codecommit create-repository --repository-name calculator-backend
-```
-
-### Step 1.2: Clone the repository
-```
-$ cd ~/environment
-$ git clone https://git-codecommit.us-east-1.amazonaws.com/v1/repos/calculator-backend
-```
-
-### Step 1.3: Setup .gitignore
-```
-$ cd ~/environment/calculator-backend
-$ vi .gitignore
-```
-```
-venv
-*.pyc
-```
-
-### Step 1.4: Test access to repo by adding README.md file and push to remote repository
-```
-$ cd ~/environment/calculator-backend
-$ echo "calculator-backend" >> README.md
-$ git add .
-$ git commit -m "Adding README.md"
-$ git push origin master
-```
-
-### Step 1.5: Navigate to working directory
+- Activate virtual environment, install flask and flask-cors
 ```
 $ cd ~/environment/calculator-backend
 $ python3 -m venv venv
@@ -78,6 +61,17 @@ $ source venv/bin/activate
 $ venv/bin/pip install flask
 $ venv/bin/pip install flask-cors
 ```
+
+- Add .gitignore file ~/environment/myproject-customer-service-python/.gitignore
+
+
+```
+venv
+*.pyc
+```
+
+
+
 
 ### Step 1.6 Create Calculator Class Calculator.py
 ```
@@ -317,24 +311,21 @@ if __name__ == "__main__":
     unittest.main()
 ```
 
-### Step 1.11: Run Unit Tests
-```
+- Add Unit Tests and Run Tests
+```bash
 $ chmod a+x test_calculator.py
 $ ./test_calculator.py -v
 ```
 
-### Step 1.12 Save changes to remote git repository
-```
-$ git add .
-$ git commit -m "Initial"
-$ git push origin master
+- Run locally before dockerizing
+```bash
+$ python app.py
+$ curl http://localhost:5000
 ```
 
-### Step 1.13: Create the Dockerfile
-```
-$ cd ~/environment/calculator-backend
-$ vi Dockerfile
-```
+- Test using curl scripts ~/environment/myproject-customer-service-python/curl_scripts.md
+
+- Add Docker File ~/environment/myproject-calculator-service-python/Dockerfile
 ```
 # Set base image to python
 FROM python:3.7
@@ -351,105 +342,38 @@ ENTRYPOINT ["python"]
 CMD ["app.py"]
 ```
 
-### Step 1.14: Build, Tag and Run the Docker Image locally
-Replace:
-- AccountId: 707538076348
-- Region: us-east-1
-
+- Build, Tag and Run the Docker Image locally. (Replace AccountId and Region)
 ```
-$ docker build -t calculator-backend .
-$ docker tag calculator-backend:latest 707538076348.dkr.ecr.us-east-1.amazonaws.com/calculator-backend:latest
-$ docker run -d -p 5000:5000 calculator-backend:latest
+$ docker build -t myproject-calculator-service .
+$ docker tag myproject-calculator-service:latest 222337787619.dkr.ecr.ap-southeast-2.amazonaws.com/myproject-calculator-service:latest
+$ docker run -d -p 5000:5000 myproject-calculator-service:latest
 ```
 
-### Step 1.15: Test Math Operations
-- Test Add
-```
-$ curl -i -H "Content-Type: application/json" -X POST -d '{"argument1":2, "argument2":1 }' http://localhost:5000/add
-{
-  "answer": 3
-}
-```
+- Test using curl scripts ~/environment/myproject-calculator-service-python/curl_scripts.md
 
-- Test Subtract
-```
-$ curl -i -H "Content-Type: application/json" -X POST -d '{"argument1":4, "argument2":3 }' http://localhost:5000/subtract
-{
-  "answer": 1
-}
-```
-
-- Test Multiply
-```
-$ curl -i -H "Content-Type: application/json" -X POST -d '{"argument1":2, "argument2":3 }' http://localhost:5000/multiply
-{
-  "answer": 6
-}
-```
-
-- Test Divide
-```
-$ curl -i -H "Content-Type: application/json" -X POST -d '{"argument1":12, "argument2":4 }' http://localhost:5000/divide
-{
-  "answer": 3
-}
-```
-
-- Test Square Root
-```
-$ curl -i -H "Content-Type: application/json" -X POST -d '{"argument1":9 }' http://localhost:5000/sqrt
-{
-  "answer": 3
-}
-```
-
-- Test Cube Root
-```
-$ curl -i -H "Content-Type: application/json" -X POST -d '{"argument1":64 }' http://localhost:5000/cbrt
-{
-  "answer": 4
-}
-```
-
-- Test Power
-```
-$ curl -i -H "Content-Type: application/json" -X POST -d '{"argument1":2, "argument2":3 }' http://localhost:5000/exp
-{
-  "answer": 8
-}
-```
-
-- Test Factorial
-```
-$ curl -i -H "Content-Type: application/json" -X POST -d '{"argument1":5 }' http://localhost:5000/factorial
-{
-  "answer": 120
-}
-```
-
-### Step 1.16: Create the ECR Repository
-```
-$ aws ecr create-repository --repository-name calculator-backend
-```
-
-### Step 1.17: Run login command to retrieve credentials for our Docker client and then automatically execute it (include the full command including the $ below).
-```
+- Push our Docker Image to ECR and validate
+```bash
 $ $(aws ecr get-login --no-include-email)
+$ docker push 222337787619.dkr.ecr.ap-southeast-2.amazonaws.com/myproject-calculator-service:latest
+$ aws ecr describe-images --repository-name myproject-calculator-service
 ```
 
-### Step 1.18: Push our Docker Image
-```
-$ docker push 707538076348.dkr.ecr.us-east-1.amazonaws.com/calculator-backend:latest
+- Add Buildspec Yaml file ~/environment/myproject-calculator-service-python/buildspec.yml
+
+- Add Kubernetes Deployment and Service Yaml files ~/environment/myproject-calculator-service-python/kubernetes/deployment.yml and ~/environment/myproject-calculator-service-python/kubernetes/service.yml
+
+- Make changes, commit and push changes to CodeCommit repository to trigger codepipeline deployment to EKS
+```bash
+$ git add .
+$ git commit -m "Initial Commit"
+$ git push origin master
 ```
 
-### Step 1.19: Validate Image has been pushed
-```
-$ aws ecr describe-images --repository-name calculator-backend
-```
+- Test using curl scripts ~/environment/myproject-calculator-service-python/curl_scripts.md
 
-### (Optional) Clean up
+## (Optional) Clean up
 ```
-$ aws ecr delete-repository --repository-name calculator-backend --force
-$ aws codecommit delete-repository --repository-name calculator-backend
-$ rm -rf ~/environment/calculator-backend
+$ aws ecr delete-repository --repository-name myproject-calculator-service --force
+$ aws codecommit delete-repository --repository-name myproject-calculator-service
+$ rm -rf ~/environment/myproject-calculator-service
 ```
