@@ -67,12 +67,11 @@ $ source venv/bin/activate
 (venv) $ deactivate
 ```
 
-- Add .gitignore file ~/environment/myproject-calculator-service-python/.gitignore
+- Add .gitignore file     ~/environment/myproject-calculator-service-python/.gitignore
 - Create calculator class ~/environment/myproject-calculator-service-python/calculator.py
-- Add app ~/environment/myproject-calculator-service-python/app.py
-- Add README.md file ~/environment/myproject-calculator-service-python/README.md
-
-- Generate requirements.txt
+- Add app                 ~/environment/myproject-calculator-service-python/app.py
+- Add README.md file      ~/environment/myproject-calculator-service-python/README.md
+- Generate                ~/environment/myproject-calculator-service-python/requirements.txt
 ```bash
 $ pip freeze > requirements.txt
 ```
