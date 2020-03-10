@@ -112,8 +112,6 @@ $ docker push 222337787619.dkr.ecr.ap-southeast-2.amazonaws.com/myproject-calcul
 $ aws ecr describe-images --repository-name myproject-calculator-service
 ```
 
-- Add Buildspec Yaml file ~/environment/myproject-calculator-service/buildspec.yml
-
 ## Manual Deployment
 - Create ELB Service Role if it doesnt exist yet
 ```
@@ -145,6 +143,8 @@ $ kubectl get service myproject-calculator-service -o wide
 - Test using curl scripts ~/environment/myproject-calculator-service/curl_scripts.md
 
 ## Automatic Deployment
+- Add Buildspec Yaml file ~/environment/myproject-calculator-service/buildspec.yml
+
 - Make changes, commit and push changes to CodeCommit repository to trigger codepipeline deployment to EKS
 ```bash
 $ git add .
