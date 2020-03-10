@@ -22,7 +22,7 @@ POST        | http://[hostname]/factorial {"argument1":a }                | Get 
 ## Prerequisites
 - Docker, Python, Flask, Git, Virtualenv https://github.com/jrdalino/development-environment-setup
 - Setup CI/CD using https://github.com/jrdalino/myproject-aws-codepipeline-calculator-service-terraform. This will create CodeCommit Repo, ECR Repo, CodeBuild Project, Lambda Function and CodePipeline Pipeline 
-- You may also create the repositories individually
+- You may also create the repositories manually
 ```bash
 $ aws codecommit create-repository --repository-name myproject-calculator-service
 $ aws ecr create-repository --repository-name myproject-calculator-service
@@ -48,10 +48,10 @@ $ cd ~/environment/myproject-calculator-service
 ├── buildspec.yml
 ├── calculator.py
 ├── curl_scripts.md
-├── requirements.txt
-├── test_calculator.py
 ├── Dockerfile
-└── README.md
+├── README.md
+├── requirements.txt
+└── test_calculator.py
 ```
 
 - Activate virtual environment, install flask and flask-cors
