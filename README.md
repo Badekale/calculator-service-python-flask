@@ -62,23 +62,17 @@ $ source venv/bin/activate
 (venv) $ venv/bin/pip install flask
 (venv) $ venv/bin/pip install flask-cors
 ```
-
 - To deactivate
 ```bash
 (venv) $ deactivate
 ```
 
-- Add .gitignore file     ~/environment/myproject-calculator-service/.gitignore
+## Development
 - Create calculator class ~/environment/myproject-calculator-service/calculator.py
 - Add app                 ~/environment/myproject-calculator-service/app.py
-- Add README.md file      ~/environment/myproject-calculator-service/README.md
-- Generate                ~/environment/myproject-calculator-service/requirements.txt
-```bash
-$ pip freeze > requirements.txt
-```
 
+## Testing
 - Add Unit Testing ~/environment/myproject-calculator-service/test_calculator.py
-
 - Run Tests
 ```bash
 $ chmod a+x test_calculator.py
@@ -94,8 +88,13 @@ $ curl http://localhost:5000
 
 - Test using curl scripts ~/environment/myproject-calculator-service/curl_scripts.md
 
-- Add Docker File ~/environment/myproject-calculator-service/Dockerfile
+## Containerize
+- Generate                ~/environment/myproject-calculator-service/requirements.txt
+```bash
+$ pip freeze > requirements.txt
+```
 
+- Add Docker File ~/environment/myproject-calculator-service/Dockerfile
 - Build, Tag and Run the Docker Image locally. (Replace AccountId and Region)
 ```bash
 $ docker build -t myproject-calculator-service .
@@ -104,7 +103,6 @@ $ docker run -d -p 5000:5000 myproject-calculator-service:latest
 ```
 
 - Test using curl scripts ~/environment/myproject-calculator-service/curl_scripts.md
-
 - Push our Docker Image to ECR and validate
 ```bash
 $ $(aws ecr get-login --no-include-email)
@@ -144,7 +142,8 @@ $ kubectl get service myproject-calculator-service -o wide
 
 ## Automatic Deployment
 - Add Buildspec Yaml file ~/environment/myproject-calculator-service/buildspec.yml
-
+- Add .gitignore file     ~/environment/myproject-calculator-service/.gitignore
+- Add README.md file      ~/environment/myproject-calculator-service/README.md
 - Make changes, commit and push changes to CodeCommit repository to trigger codepipeline deployment to EKS
 ```bash
 $ git add .
